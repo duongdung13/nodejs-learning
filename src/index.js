@@ -6,6 +6,8 @@ const hbs = require('express-handlebars').engine;
 const app = express();
 const port = 3000;
 
+const route = require('./routes');
+
 app.use(express.static(path.join(__dirname,'public/')));
 
 app.use(express.urlencoded(
@@ -21,36 +23,8 @@ app.engine('.hbs', hbs({extname: '.hbs'}));
 app.set('view engine', '.hbs');
 app.set('views', path.join(__dirname, "resources/views"));
 
-//Page home
-app.get('/', (req, res) => {
-  res.render('home');
-});
-
-//Page news
-app.get('/news', (req, res) => {
-  res.render('news', {
-    showTitle: true
-  });
-});
-
-//Page Not Load Layout
-app.get('/page-layout-false', (req, res, next) => {
-  res.render('pageLayoutFalse', {layout: false});
-});
-
-//Routing
-app.get('/welcome', (req, res) => {
-  res.send('Welcome to NodeJS!');
-});
-
-//Search
-app.get('/search', (req, res) => {
-  res.render('search', { parameters : req.query});
-})
-app.post('/search', (req, res) => {
-  res.send('Post Send : '+ JSON.stringify(req.body));
-})
-
+//Routes Init
+route(app);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
