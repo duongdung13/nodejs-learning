@@ -8,6 +8,11 @@ const port = 3000;
 
 app.use(express.static(path.join(__dirname,'public/')));
 
+app.use(express.urlencoded(
+  {extended: true}
+));
+app.use(express.json());
+
 //HTTP Logger
 app.use(morgan('combined'));
 
@@ -41,6 +46,9 @@ app.get('/welcome', (req, res) => {
 //Search
 app.get('/search', (req, res) => {
   res.render('search', { parameters : req.query});
+})
+app.post('/search', (req, res) => {
+  res.send('Post Send : '+ JSON.stringify(req.body));
 })
 
 
