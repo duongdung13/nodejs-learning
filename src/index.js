@@ -33,6 +33,17 @@ app.get('/page-layout-false', (req, res, next) => {
   res.render('pageLayoutFalse', {layout: false});
 });
 
+//Routing
+app.get('/welcome', (req, res) => {
+  res.send('Welcome to NodeJS!');
+});
+
+//Search
+app.get('/search', (req, res) => {
+  res.render('search', { parameters : req.query});
+})
+
+
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`);
 })
