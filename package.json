@@ -22,12 +22,12 @@
         "prettier": "^2.8.8",
         "sass": "^1.62.1"
     },
+    "lint-staged": {
+        "src/**/*.{js,json,scss}": "prettier --single-quote --trailing-comma all --write"
+    },
     "husky": {
       "hooks": {
         "pre-commit": "lint-staged"
       }
-    },
-    "lint-staged": {
-        "src/**/*.{js,json,scss}": "prettier --single-quote --trailing-comma all --write"
     }
 }
