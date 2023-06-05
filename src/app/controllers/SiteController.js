@@ -1,24 +1,22 @@
-class SiteController{
-    
+class SiteController {
     // [GET] /
     index(req, res) {
-        res.render('home');
+        res.render('home')
     }
 
     // [GET] /search
     search(req, res) {
-        res.render('search');
+        res.render('search')
     }
 
     welcome(req, res) {
-        res.send('Welcome to NodeJS!');
+        res.send('Welcome to NodeJS!')
     }
 
     //Page Not Load Layout
     pagelayoutfalse(req, res) {
-        res.render('pageLayoutFalse', {layout: false});
+        res.render('pageLayoutFalse', { layout: false })
     }
-
 }
 
-module.exports = new SiteController;
+module.exports = new SiteController()
