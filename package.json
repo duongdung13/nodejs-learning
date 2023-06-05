@@ -10,6 +10,14 @@
     },
     "author": "Dungdc",
     "license": "ISC",
+    "lint-staged": {
+      "src/**/*.{js,json,scss}": "prettier --single-quote --trailing-comma all --write"
+    },
+    "husky": {
+      "hooks": {
+        "pre-commit": "lint-staged"
+      }
+    },
     "dependencies": {
         "express": "^4.18.2",
         "express-handlebars": "^7.0.7"
@@ -21,13 +29,5 @@
         "nodemon": "^2.0.22",
         "prettier": "^2.8.8",
         "sass": "^1.62.1"
-    },
-    "lint-staged": {
-        "src/**/*.{js,json,scss}": "prettier --single-quote --trailing-comma all --write"
-    },
-    "husky": {
-      "hooks": {
-        "pre-commit": "lint-staged"
-      }
     }
 }
