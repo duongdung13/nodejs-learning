@@ -2,16 +2,14 @@ const Course = require('../models/Course')
 
 class SiteController {
     // [GET] /
-    index(req, res) {
-        Course.find().then((courses) => {
-            // xử lý kết quả trả về
-            res.json(courses);
-          }).catch((err) => {
-            // xử lý lỗi
-            res.status(400).json({'error': err});
-          });
-
-       // res.render('home')
+    index(req, res, next) {
+        Course.find({})
+            .then((courses) => {
+                courses = courses.map((course) => course.toObject())
+                res.render('home', { courses })
+            })
+            .catch(next)
+        //
     }
 
     // [GET] /search
