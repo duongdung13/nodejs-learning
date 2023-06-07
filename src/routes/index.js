@@ -4,7 +4,7 @@ const courseRouter = require('./course')
 
 function route(app) {
     app.use('/news', newsRouter)
-    app.use('/course', courseRouter)
+    app.use('/courses', courseRouter)
     app.use('/', siteRouter)
 }
 
