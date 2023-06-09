@@ -36,6 +36,22 @@ class CourseController {
         const course = new Course(req.body)
         course.save().then(() => res.redirect('/'))
     }
+
+    // [GET] /course/edit/:id
+    edit(req, res, next) {
+        Course.findOne({ _id: req.params.id })
+            .then((course) => {
+                res.render('courses/edit', { course: mongooseToObject(course) })
+            })
+            .catch(next)
+    }
+
+    // [PUT] /course/update/:id
+    update(req, res, next) {
+        Course.updateOne({_id: req.params.id}, req.body)
+            .then(() => res.redirect('/'))
+            .catch(next)
+    }
 }
 
 module.exports = new CourseController()
