@@ -9,7 +9,7 @@ const port = 3000
 
 const route = require('./routes');
 const db = require('./config/db');
-
+// chờ chút nhé
 //connect to DB
 db.connect();
 
