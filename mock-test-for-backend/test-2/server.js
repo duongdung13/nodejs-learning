@@ -20,13 +20,16 @@ function validateFile(file, res) {
     const maxSize = 5 * 1024 * 1024;
 
     if (!allowedTypes.includes(file.type)) {
-        return sendResponse(res, 400, 'Invalid file type');
+        sendResponse(res, 400, 'Invalid file type');
+        return false;
     }
 
     if (file.size > maxSize) {
-        return sendResponse(res, 400, 'File size exceeds the limit');
+        sendResponse(res, 400, 'File size exceeds the limit');
+        return false;
     }
 
+    return true;
 }
 
 const server = http.createServer((req, res) => {
@@ -66,7 +69,7 @@ const server = http.createServer((req, res) => {
                         const fileBuffer = Buffer.from(fileData, 'binary');
                         // Validate file
                         const file = { type: fileType, size: fileBuffer.length };
-                        if (validateFile(file, res)) {
+                        if (!validateFile(file, res)) {
                             return;
                         }
                         // Lưu file
