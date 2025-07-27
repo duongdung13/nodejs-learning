@@ -1,0 +1,20 @@
+Section 3: System Monitoring and Debugging
+Time: 30 min • Score: 30
+
+Mock Question 3.2
+Time: 30 min • Score: 30
+Type: Code Implementation
+
+Xây dựng middleware rateLimiter giới hạn mỗi IP chỉ được gọi một endpoint tối đa 10 lần trong 1 phút.
+
+Yêu cầu:
+
+Middleware kiểm tra và chặn request nếu quá số lần cho phép
+
+Dùng in-memory store (ví dụ: object hoặc Map) để lưu thông tin IP + timestamps
+
+Endpoint mẫu: /api/data
+
+Bonus (nâng cao):
+
+Làm sao để giải pháp scale lên multi-process hoặc multi-instance? Gợi ý sử dụng Redis?
