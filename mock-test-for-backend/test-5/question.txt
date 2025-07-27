@@ -1,0 +1,17 @@
+Xây dựng một REST API cho phép người dùng đăng nhập với endpoint POST /login. Hệ thống cần hỗ trợ:
+
+Input: { email: string, password: string }
+
+So sánh password đã hash (sử dụng crypto module, không dùng bcrypt)
+
+Nếu đúng: trả về JWT token (tự tạo thủ công, không dùng jsonwebtoken)
+
+Nếu sai: trả mã lỗi
+
+Yêu cầu:
+
+Dùng in-memory "user store" (object)
+
+Không dùng thư viện ngoài (chỉ built-in)
+
+Token chỉ đơn giản là base64 encode chuỗi {email:..., timestamp} với secret key
