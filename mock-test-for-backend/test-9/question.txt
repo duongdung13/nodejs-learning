@@ -1,0 +1,18 @@
+Mock Question 1.9 — NodeJS Core HTTP File Upload & Save
+Type: Code Implementation
+ Time: 30 min • Score: 30
+Đề bài:
+ Viết một HTTP server cho phép người dùng tải file lên qua endpoint POST /upload-csv.
+Dữ liệu gửi lên là file .csv thông qua multipart/form-data với trường file
+
+
+Server sẽ lưu file vào thư mục /data và phân tích nội dung:
+
+
+In ra số dòng và số cột trong file
+
+
+Không dùng thư viện ngoài
+
+
+Nếu file không phải .csv hoặc quá 1MB thì trả về lỗi

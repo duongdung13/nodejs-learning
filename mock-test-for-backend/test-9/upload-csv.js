@@ -11,7 +11,7 @@ if(!fs.existsSync(path.join(__dirname, 'data'))) {
 
 function validateFile(file, res) {
     const allowedTypes = ['text/csv'];
-    const maxSize = 10 * 1024 * 1024;
+    const maxSize = 1 * 1024 * 1024; // 1MB
 
     if(!allowedTypes.includes(file.type)) {
         sendResponse(res, 400, { error: 'File type is not allowed' });
@@ -67,16 +67,19 @@ const server = http.createServer((req, res) => {
     }
 
     const contentType = req.headers['content-type'];
+    
     if(!contentType || !contentType.startsWith('multipart/form-data')) {
         sendResponse(res, 400, { error: 'Content-Type must be multipart/form-data' });
         return;
     }
 
     const boundary = '--' + contentType.split('boundary=')[1];
+    
     let data = Buffer.alloc(0);
     req.on('data', chunk => {
         data = Buffer.concat([data, chunk]);
     });
+
     req.on('end', () => {
         const parts = data.toString().split(boundary);
 
@@ -115,9 +118,12 @@ const server = http.createServer((req, res) => {
                 return;
             }
         }
+
+        sendResponse(res, 400, { error: 'File not found' });
+        return;
     });
 });
 
 server.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+    console.log(`🔥🔥🔥🔥🔥 Server is running on port ${PORT} 🔥🔥🔥🔥🔥`);
 });
