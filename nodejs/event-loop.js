@@ -89,7 +89,7 @@
   
   async function asyncFunc() {
     console.log('Async start'); // 2
-    await null;
+    await null; // await chạy trước promise
     console.log('Async end');
   }
   asyncFunc();
