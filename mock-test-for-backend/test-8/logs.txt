@@ -1,4 +1,0 @@
-[2025-07-27T16:55:35.360Z] GET /api/path took 6ms
-[2025-07-27T16:55:40.472Z] GET /api/path took 1ms
-[2025-07-27T16:55:43.539Z] GET /api/path took 0ms
-[2025-07-27T16:55:45.981Z] GET /api/path took 0ms

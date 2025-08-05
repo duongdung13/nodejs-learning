@@ -1,8 +1,0 @@
-Viết HTTP server có endpoint GET /transform.
-Khi client gọi endpoint, server sẽ đọc một file text lớn (input.txt)
-
-Dùng stream để biến đổi nội dung: viết hoa toàn bộ chữ cái
-
-Trả về file mới (output.txt) đã được chuyển đổi toàn bộ sang chữ in hoa
-
-Không load toàn bộ file vào bộ nhớ
