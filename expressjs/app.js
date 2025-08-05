@@ -2,6 +2,7 @@ import express from 'express'
 const app = express()
 const PORT = 3000
 import userRouter from './routes/user.routes.js'
+import { errorHandler } from './middlewares/errorHandler.js'
 
 function logger(req, res, next) {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`)
@@ -21,8 +22,8 @@ export function checkAdmin(req, res, next) {
     if (req.headers['admin'] === 'true') next()
     else res.status(403).send('Bạn không phải admin')
 }
+app.use(logger);
 
-app.use(logger)
 
 app.use('/user', userRouter)
 
@@ -40,10 +41,8 @@ app.use((req, res, next) => {
     res.status(404).json({ message: 'Không tìm thấy đường dẫn!' })
 })
 
-app.use((err, req, res, next) => {
-    console.error(err.stack)
-    res.status(500).send('Đã xảy ra lỗi phía server!')
-})
+// Error handler middleware - phải đặt sau tất cả routes
+app.use(errorHandler);
 
 app.listen(PORT, () => {
     console.log(`🚀 Server đang chạy tại http://localhost:${PORT}`)
