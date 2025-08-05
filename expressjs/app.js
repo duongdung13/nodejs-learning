@@ -1,6 +1,7 @@
-const express = require('express')
+import express from 'express'
 const app = express()
 const PORT = 3000
+import userRouter from './routes/user.routes.js'
 
 function logger(req, res, next) {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`)
@@ -16,7 +17,14 @@ function authMiddleware(req, res, next) {
     }
 }
 
+export function checkAdmin(req, res, next) {
+    if (req.headers['admin'] === 'true') next()
+    else res.status(403).send('Bạn không phải admin')
+}
+
 app.use(logger)
+
+app.use('/user', userRouter)
 
 app.get('/public', (req, res) => {
     res.status(200).json({ message: 'Đây là nội dung công khai!' })
