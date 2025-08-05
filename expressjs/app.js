@@ -6,6 +6,7 @@ import { errorHandler } from './middlewares/errorHandler.js'
 import cors from 'cors'
 import helmet from 'helmet'
 import expressRateLimit from 'express-rate-limit'
+import jwt from 'jsonwebtoken'
 
 const limiter = expressRateLimit({
     windowMs: 15 * 60 * 1000, // 15 phút
@@ -19,11 +20,25 @@ function logger(req, res, next) {
 }
 
 function authMiddleware(req, res, next) {
-    const token = req.headers['authorization']
-    if (token === 'secret123') {
-        next() // hợp lệ, cho qua
-    } else {
-        res.status(403).json({ message: 'Forbidden: Invalid token' })
+    const authHeader = req.headers.authorization
+    if (!authHeader) {
+        return res.status(401).json({ message: 'Unauthorized 1' })
+    }
+    const token = authHeader.split(' ')[1]
+    try {
+        const decoded = jwt.verify(token, 'secret')
+        console.log(`decoded {}`, decoded)
+        req.user = decoded
+        next()
+    } catch (error) {
+        return res.status(401).json({ message: 'Unauthorized 2' })
+    }
+}
+
+function authorizationRole(...allowedRoles) {
+    return (req, res, next) => {
+        if (allowedRoles.includes(req.user.role)) next()
+        else res.status(403).json({ message: 'Bạn không có quyền truy cập' })
     }
 }
 
@@ -41,16 +56,19 @@ app.use(cors()) // tất cả domain đều được truy cập
 app.use(helmet())
 app.use(limiter)
 app.use(logger)
-
+app.use(express.json())
 app.use('/user', userRouter)
 
 app.get('/public', (req, res) => {
     res.status(200).json({ message: 'Đây là nội dung công khai!' })
 })
 
-app.get('/private', authMiddleware, (req, res) => {
+app.get('/private', authMiddleware, authorizationRole('user'), (req, res) => {
     res.status(200).json({
         message: 'Bạn đã truy cập nội dung riêng tư thành công!',
+        data: {
+            user: req.user,
+        },
     })
 })
 
