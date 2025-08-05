@@ -3,6 +3,15 @@ const app = express()
 const PORT = 3000
 import userRouter from './routes/user.routes.js'
 import { errorHandler } from './middlewares/errorHandler.js'
+import cors from 'cors'
+import helmet from 'helmet'
+import expressRateLimit from 'express-rate-limit'
+
+const limiter = expressRateLimit({
+    windowMs: 15 * 60 * 1000, // 15 phút
+    max: 100, // 100 request
+    message: 'Too many requests, please try again later.',
+})
 
 function logger(req, res, next) {
     console.log(`[${new Date().toISOString()}] ${req.method} ${req.url}`)
@@ -22,8 +31,16 @@ export function checkAdmin(req, res, next) {
     if (req.headers['admin'] === 'true') next()
     else res.status(403).send('Bạn không phải admin')
 }
-app.use(logger);
 
+app.use(cors()) // tất cả domain đều được truy cập
+// app.use(cors({
+//     origin: 'http://localhost:3000',
+//     methods: ['GET', 'POST', 'PUT', 'DELETE'],
+//     allowedHeaders: ['Content-Type', 'Authorization'],
+// })); // chỉ domain localhost:3000 được truy cập
+app.use(helmet())
+app.use(limiter)
+app.use(logger)
 
 app.use('/user', userRouter)
 
@@ -42,7 +59,7 @@ app.use((req, res, next) => {
 })
 
 // Error handler middleware - phải đặt sau tất cả routes
-app.use(errorHandler);
+app.use(errorHandler)
 
 app.listen(PORT, () => {
     console.log(`🚀 Server đang chạy tại http://localhost:${PORT}`)
