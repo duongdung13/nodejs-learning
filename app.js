@@ -1,12 +1,20 @@
 import express from 'express'
 const app = express()
-const PORT = 3000
+import mongoose from 'mongoose'
+import dotenv from 'dotenv'
+dotenv.config()
+const PORT = process.env.PORT || 3000
 import userRouter from './routes/user.routes.js'
+import postRouter from './routes/post.route.js'
 import { errorHandler } from './middlewares/errorHandler.js'
 import cors from 'cors'
 import helmet from 'helmet'
 import expressRateLimit from 'express-rate-limit'
 import jwt from 'jsonwebtoken'
+
+mongoose.connect(process.env.MONGODB_URI)
+    .then(() => console.log('✅ Connected to MongoDB'))
+    .catch((err) => console.error('❌ MongoDB connection error:', err.message))
 
 const limiter = expressRateLimit({
     windowMs: 15 * 60 * 1000, // 15 phút
@@ -57,8 +65,8 @@ app.use(helmet())
 app.use(limiter)
 app.use(logger)
 app.use(express.json())
-app.use('/user', userRouter)
-
+app.use('/api/users', userRouter)
+app.use('/api/posts', postRouter)
 app.get('/public', (req, res) => {
     res.status(200).json({ message: 'Đây là nội dung công khai!' })
 })
